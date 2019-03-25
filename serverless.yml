@@ -1,0 +1,25 @@
+ 
+service: aws-nodejs # NOTE: update this with your service name
+   
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  iamRoleStatements:   
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*" 
+ 
+functions:
+  Core_Report_Generate_Log:
+    handler: handler.generateReportLogUrl
+    memorySize: 1024 # in MB
+    timeout: 300 # 5 Minutes
+    events:
+      - http:
+          path: core/report/log/url
+          method: get
+          cors: true        
+          integration: lambda       
+ 
